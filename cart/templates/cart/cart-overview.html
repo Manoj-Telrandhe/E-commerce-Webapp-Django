@@ -91,7 +91,7 @@
 
 <!--Cart Total-->
 <div class="mt-6 text-right pr-2">
-  <strong class="text-lg text-gray-900"
+  <strong class="text-lg text-gray-900" id="total"
     >Total: ₹{{ cart.get_total_price}}</strong
   >
 </div>
@@ -111,6 +111,11 @@
           product_id: $(this).data("index"),
           csrfmiddlewaretoken: "{{csrf_token}}",
           action: "POST",
+        },
+        sucess: function(json){
+          location.reload();
+          // document.getElementById('cart-qty').textContent = json.qty;
+          // document.getElementById("total").textContent = json.total;
         },
        });
     });
