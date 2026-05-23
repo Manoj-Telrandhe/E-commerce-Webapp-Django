@@ -2,9 +2,9 @@
 <!--Comment-->
 
 <!--Comments-->
-{% load static %}
+
 <!--Comments-->
-{% load mathfilters %}
+
 <!--Comment-->
 {% block body %}
 <h2 class="text-3xl font-semibold mb-8 text-gray-800">Your Shopping Cart</h2>
@@ -100,24 +100,46 @@
 <p class="text-gray-500 text-center text-lg mt-12">Your cart is empty.</p>
 {% endif %}
 <!--Comment-->
-
 <script>
-    $(document).on("click", ".delete", function (e) {
-       e.preventDefault()
-       $.ajax({
-        type:"POST",
-        url:"{% url 'cart_delete' %}",
-        data:{
-          product_id: $(this).data("index"),
-          csrfmiddlewaretoken: "{{csrf_token}}",
-          action: "POST",
-        },
-        sucess: function(json){
-          location.reload();
-          // document.getElementById('cart-qty').textContent = json.qty;
-          // document.getElementById("total").textContent = json.total;
-        },
-       });
+  $(document).on("click", ".delete", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart_delete' %}",
+      data: {
+        product_id: $(this).data("index"),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (json) {
+        location.reload();
+        // document.getElementById("cart-qty").textContent = json.qty;
+        // document.getElementById("total").textContent = json.total;
+      },
     });
+  });
+
+  // Update functionality
+  $(document).on("click", ".update", function (e) {
+    e.preventDefault();
+    var productID = $(this).data("index");
+    var productQTY = $("#select" + productID + " option:selected").text();
+    console.log(productID);
+    console.log(productQTY);
+
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart_update' %}",
+      data: {
+        product_id: $(this).data("index"),
+        product_quantity: $("#select" + productID + " option:selected").text(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: "post",
+      },
+      success: function (e) {
+        location.reload();
+      },
+    });
+  });
 </script>
 {% endblock %}
