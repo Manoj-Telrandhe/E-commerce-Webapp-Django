@@ -30,3 +30,12 @@ def cart_overview(request):
         'cart' : cart
     }
     return render(request, 'cart/cart-overview.html', context)
+
+
+def cart_delete(request):
+    cart = Cart(request)
+    # if request.POST.get("action")=='post':
+    if request.method == "POST":
+        product_id = request.POST.get("product_id")
+        cart.delete(product_id=product_id)
+        return JsonResponse({"message":"item delete"})

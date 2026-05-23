@@ -101,4 +101,18 @@
 {% endif %}
 <!--Comment-->
 
+<script>
+    $(document).on("click", ".delete", function (e) {
+       e.preventDefault()
+       $.ajax({
+        type:"POST",
+        url:"{% url 'cart_delete' %}",
+        data:{
+          product_id: $(this).data("index"),
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: "POST",
+        },
+       });
+    });
+</script>
 {% endblock %}
